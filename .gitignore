@@ -4,6 +4,9 @@
 #ignore reports
 reports
 
+#ignore sqlite databases
+/databases
+
 #ignore huggingface
 summarizeApp
 #ignore fine-tuning
