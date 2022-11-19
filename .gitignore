@@ -1,6 +1,9 @@
 #ignore sqlite3
 *.db
 
+#ignore reports
+reports
+
 #ignore huggingface
 summarizeApp
 #ignore fine-tuning
