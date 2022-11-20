@@ -6,7 +6,14 @@ from main import read_file, extract_keywords, make_hashtags
 from click.testing import CliRunner
 from main import cli
 from etl import collect_extract, query_database
+from sqlitereports import get_csv_files
 
+
+def test_get_csv_files():
+    csv_files = get_csv_files("artifacts")
+    for csv_file in csv_files:
+        assert csv_file.endswith(".csv")
+    
 
 def test_collect_extract():
     keywords, score, hashtags = collect_extract("text.txt")

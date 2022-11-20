@@ -9,6 +9,7 @@ import csv
 import sqlite3
 import glob
 import tempfile
+import os
 
 DEFAULT_DB = "databases/data.db"
 REPORTS = "reports"
@@ -28,10 +29,9 @@ def convert_header_name(header_name):
 
 
 # build a function to convert the schema of a dollar amount to a float for two columns
-# pylint: disable=dangerous-default-value
-def convert_dollar_amount_to_float(
-    db=DEFAULT_DB, columns=["Commission_Earned", "Sales"]
-):
+def convert_dollar_amount_to_float(db=DEFAULT_DB, columns=None):
+    if columns is None:
+        columns = ["Commission_Earned", "Sales"]
     # create a connection to the sqlite database
     conn = sqlite3.connect(db)
     # create a cursor object
@@ -81,7 +81,7 @@ def import_csv_to_sqlite(db=DEFAULT_DB, reports=REPORTS):
     with open(combined_csv_file.name, encoding="utf-8-sig") as f:
         # create a csv reader object
         csv_reader = csv.reader(f)
-        # get the header and clean it to remove spaces
+        # get the header
         header = [convert_header_name(h) for h in next(csv_reader)]
         # create a table name
         table_name = "data"
@@ -134,6 +134,14 @@ def get_top_revenue_generating_products(db=DEFAULT_DB, limit=10):
     conn.close()
     # return the top revenue generating products
     return top_revenue_generating_products
+
+
+# delete the database file if it exists
+def delete_database(db=None):
+    # if the database is not None
+    if db is not None:
+        # delete the database
+        os.remove(db)
 
 
 # build a click group
