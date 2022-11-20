@@ -217,6 +217,27 @@ def print_csv(reports):
             # print the row
             print(row)
 
+# build a click command to setup and teardown the database
+@cli.command("smoketest")
+@click.option("--db", default="test.db", help="The database to us for smoke test.")
+@click.option("--reports", default="artifacts", help="The directory containing the test CSV files.")
+def smoketest(db, reports):
+    """Run a smoke test on the database."""
+    # delete the database if it exists
+    delete_database(db)
+    # import the csv files into the sqlite database
+    import_csv_to_sqlite(db, reports)
+    # get the schema of the database
+    schema = get_schema(db)
+    # get the top revenue generating products
+    top_revenue_generating_products = get_top_revenue_generating_products(db)
+    # print the schema
+    print(schema)
+    # print the top revenue generating products
+    print(top_revenue_generating_products)
+    # delete the database to clean up
+    delete_database(db)
+
 
 # instantiate the click group
 if __name__ == "__main__":
