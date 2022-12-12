@@ -12,5 +12,6 @@ uvicorn==0.18.3
 yake==0.4.8
 #development
 ipython==8.6.0
-
+#3rd party lib
+wikipedia==1.4.0
 
